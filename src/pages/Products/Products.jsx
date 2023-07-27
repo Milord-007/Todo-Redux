@@ -1,37 +1,27 @@
-import React from "react";
+import React, { useCallback } from "react";
 import MediaCard from "../../components/Card";
-import { useQuery } from "react-query";
+import {useGetProducts} from "../../hooks/api/useGetProducts"
+import {useGetCategories} from "../../hooks/api/useGetCategories"
+import {setSelectedCategory} from "../../store/products/products-reducer";
 
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { filterCategories, getAllCategories, getProducts, handleChangeCategory } from "../../reducers/product";
 import { Select } from "antd";
 import Menu from "antd/es/menu";
-import { productsApi } from "../../api/products";
-
-
-
 
 
 function Products() {
-  const list = useSelector((store) => store.product.list);
-  const {data} = useQuery("get-products",productsApi.getProducts)
-  const categories = useSelector((store) => store.product.categories);
-  const filterCategory = useSelector(({product})=> product.filterCategory)
+  const getSelectedCategory = useSelector((store) => store.product.selectedCategory);
 
-  const loading = useSelector(({ product }) => product.loading);
+  const {data, isLoading} = useGetProducts();
+  const {data: categories} = useGetCategories();
+
   const dispatch = useDispatch();
 
-  const fillter = (el)=>{
-    dispatch(handleChangeCategory(el))
-    dispatch(filterCategories())
-  }
-  useEffect(() => {
-    // dispatch(getProducts());
-    // dispatch(getAllCategories())
-  }, [dispatch]);
+  const changeCategory = useCallback((el)=>{
+    dispatch(setSelectedCategory(el));
+  }, []);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="w-full h-screen flex justify-center items-center">
         Loading...
@@ -44,7 +34,7 @@ function Products() {
     <div className="max-w-[1450px] mx-auto pt-5 pb-[30px]bg-[#ebebeb]">
       <div className="w-[90%] mx-auto ]">
         
-        <Select className="w-[300px]" value={filterCategory}  onChange = {fillter}>
+        <Select className="w-[300px]" value={getSelectedCategory}  onChange = {changeCategory}>
           <Menu value="All">All</Menu>
             {
                 categories.map((e)=>{
@@ -60,8 +50,8 @@ function Products() {
           placeholder="Search products"
         />
          <div className="pt-[10px] flex flex-wrap  gap-[30px]">
-        {list && Array.isArray(list) ? (
-          list.map((el, index) => (
+        {data?.products && Array.isArray(data?.products) ? (
+          data?.products.map((el, index) => (
             <div key={index}>
               <MediaCard price={el.price} img={el.images[2]} title={el.title} pricee={el.price}  category={el.category} />
             </div>

@@ -35,7 +35,6 @@ const router = createBrowserRouter([
 function App() {
   return (
     <div>
-   
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router}/>
       </QueryClientProvider>

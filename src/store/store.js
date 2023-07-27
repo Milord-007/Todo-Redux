@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import product from "../reducers/product";
+import productReducer from "./products/products-reducer";
 
 
 
 export const store = configureStore({
 
     reducer : {
-          product:product
+          product: productReducer
     }
 })
