@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import MediaCard from "../../components/Card";
 import {useGetProducts} from "../../hooks/api/useGetProducts"
 import {useGetCategories} from "../../hooks/api/useGetCategories"
-import {setSelectedCategory} from "../../store/products/products-reducer";
+import {setSearch, setSelectedCategory} from "../../store/products/products-reducer";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Select } from "antd";
@@ -11,6 +11,7 @@ import Menu from "antd/es/menu";
 
 function Products() {
   const getSelectedCategory = useSelector((store) => store.product.selectedCategory);
+  const search = useSelector((store) => store.product.search);
 
   const {data, isLoading} = useGetProducts();
   const {data: categories} = useGetCategories();
@@ -19,6 +20,10 @@ function Products() {
 
   const changeCategory = useCallback((el)=>{
     dispatch(setSelectedCategory(el));
+  }, []);
+  const changeSearch = useCallback((el)=>{
+    console.log(el.target.value);
+    dispatch(setSearch(el.target.value));
   }, []);
 
   if (isLoading) {
@@ -45,9 +50,11 @@ function Products() {
             }
         </Select>
         <input
+        onChange={changeSearch}
           type="search"
           className="w-full p-2 border-2 rounded-[12px]"
           placeholder="Search products"
+          value={search|| ""}
         />
          <div className="pt-[10px] flex flex-wrap  gap-[30px]">
         {data?.products && Array.isArray(data?.products) ? (
