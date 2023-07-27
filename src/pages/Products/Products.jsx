@@ -37,16 +37,16 @@ function Products() {
 
   return (
     
-    <div className="max-w-[1450px] mx-auto pt-5 pb-[30px]bg-[#ebebeb]">
+    <div className="max-w-[1450px] mx-auto pt-5 pb-[30px] bg-[#ebebeb]">
       <div className="w-[90%] mx-auto ]">
         
         <Select className="w-[300px]" value={getSelectedCategory}  onChange = {changeCategory}>
           <Menu >All</Menu>
             {
                 categories?.map((e)=>{
-                    return <>
+                    return <div key={e.id}>
                         <Menu value={e}>{e}</Menu>
-                    </>
+                    </div>
                 })
             }
         </Select>
