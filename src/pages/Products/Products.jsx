@@ -49,9 +49,9 @@ function Products() {
           <Menu>All</Menu>
             {
                 categories?.map((e)=>{
-                    return <div key={e.id}>
+                    return <>
                         <Menu value={e}>{e}</Menu>
-                    </div>
+                    </>
                 })
             }
         </Select>
