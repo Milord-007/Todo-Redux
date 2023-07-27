@@ -37,7 +37,7 @@ function Products() {
         <Select className="w-[300px]" value={getSelectedCategory}  onChange = {changeCategory}>
           <Menu value="All">All</Menu>
             {
-                categories.map((e)=>{
+                categories?.map((e)=>{
                     return <>
                         <Menu value={e}>{e}</Menu>
                     </>
