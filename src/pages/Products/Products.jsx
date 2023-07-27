@@ -8,6 +8,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { Select } from "antd";
 import Menu from "antd/es/menu";
 
+const debounce = (callback, wait) => {
+  let timer;
+
+  const debouncedFunc = () => {
+    if (shouldCallCallback(Date.now())) {
+      callback();
+    } else {
+      timer = startTimer(callback);
+    }
+  }
+
+  return debouncedFunc;
+}
 
 function Products() {
   const getSelectedCategory = useSelector((store) => store.product.selectedCategory);
