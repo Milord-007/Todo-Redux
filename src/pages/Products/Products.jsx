@@ -1,31 +1,36 @@
-import React, { useCallback } from "react";
-import debounce from 'lodash/debounce';
+import React, { useCallback, useState } from "react";
 import MediaCard from "../../components/Card";
 import {useGetProducts} from "../../hooks/api/useGetProducts"
 import {useGetCategories} from "../../hooks/api/useGetCategories"
 import {setSearch, setSelectedCategory} from "../../store/products/products-reducer";
 
+import debounce from 'lodash/debounce';
+
 import { useDispatch, useSelector } from "react-redux";
 import { Select } from "antd";
 import Menu from "antd/es/menu";
 
-
 function Products() {
   const getSelectedCategory = useSelector((store) => store.product.selectedCategory);
-  const search = useSelector((store) => store.product.search);
+  const [searchValue, setSearchValue] = useState("");
 
   const {data, isLoading} = useGetProducts();
   const {data: categories} = useGetCategories();
 
   const dispatch = useDispatch();
 
+  const searchQuery = debounce((val)=>{
+    dispatch(setSearch(val));
+  }, 1000);
+
   const changeCategory = useCallback((el)=>{
     dispatch(setSelectedCategory(el));
   }, []);
-  const changeSearch = useCallback(debounce((el)=>{
-  
-    dispatch(setSearch(el.target.value));
-  },1000), []);
+  const changeSearch = useCallback((el) => {
+    const value = el.target.value;
+    setSearchValue(value)
+    searchQuery(value)
+  }, []);
 
   if (isLoading) {
     return (
@@ -41,7 +46,7 @@ function Products() {
       <div className="w-[90%] mx-auto ]">
         
         <Select className="w-[300px]" value={getSelectedCategory}  onChange = {changeCategory}>
-          <Menu >All</Menu>
+          <Menu>All</Menu>
             {
                 categories?.map((e)=>{
                     return <div key={e.id}>
@@ -51,11 +56,11 @@ function Products() {
             }
         </Select>
         <input
-        onChange={changeSearch}
+          onChange={changeSearch}
           type="search"
           className="w-full p-2 border-2 rounded-[12px]"
           placeholder="Search products"
-          value={search || ""}
+          value={searchValue}
         />
          <div className="pt-[10px] flex flex-wrap  gap-[30px]">
         {data?.products && Array.isArray(data?.products) ? (
