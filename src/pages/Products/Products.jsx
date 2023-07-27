@@ -1,4 +1,5 @@
 import React, { useCallback } from "react";
+import debounce from 'lodash/debounce';
 import MediaCard from "../../components/Card";
 import {useGetProducts} from "../../hooks/api/useGetProducts"
 import {useGetCategories} from "../../hooks/api/useGetCategories"
@@ -21,10 +22,10 @@ function Products() {
   const changeCategory = useCallback((el)=>{
     dispatch(setSelectedCategory(el));
   }, []);
-  const changeSearch = useCallback((el)=>{
-    console.log(el);
-    dispatch(setSearch(el));
-  }, []);
+  const changeSearch = useCallback(debounce((el)=>{
+  
+    dispatch(setSearch(el.target.value));
+  },1000), []);
 
   if (isLoading) {
     return (
@@ -54,7 +55,7 @@ function Products() {
           type="search"
           className="w-full p-2 border-2 rounded-[12px]"
           placeholder="Search products"
-          value={search|| ""}
+          value={search || ""}
         />
          <div className="pt-[10px] flex flex-wrap  gap-[30px]">
         {data?.products && Array.isArray(data?.products) ? (
