@@ -1,9 +1,9 @@
 export const productsApi = {
-    getProducts: async (category) => {
+    getProducts: async (category,search) => {
         let res = await fetch(
             category
             ? `https://dummyjson.com/products/category/${category}`
-            : `https://dummyjson.com/products?category=${category}`
+            : `https://dummyjson.com/products/search?q=${search}`
         );
         return await res.json();
     },

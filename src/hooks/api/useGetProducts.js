@@ -5,6 +5,7 @@ import { productsApi } from "../../api/products";
 
 export function useGetProducts() {
     const selectedCategory = useSelector((store) => store.product.selectedCategory);
+    const search = useSelector((store) => store.product.search);
 
-    return useQuery(["get-products", selectedCategory], async () => await productsApi.getProducts(selectedCategory));
+    return useQuery(["get-products", selectedCategory,search], async () => await productsApi.getProducts(selectedCategory,search));
 }
