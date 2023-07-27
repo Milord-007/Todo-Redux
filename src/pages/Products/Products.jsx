@@ -35,11 +35,11 @@ function Products() {
       <div className="w-[90%] mx-auto ]">
         
         <Select className="w-[300px]" value={getSelectedCategory}  onChange = {changeCategory}>
-          <Menu value="All">All</Menu>
+          <Menu>All</Menu>
             {
-                categories?.map((e)=>{
+                categories?.map((category)=>{
                     return <>
-                        <Menu value={e}>{e}</Menu>
+                        <Menu value={category}>{category}</Menu>
                     </>
                 })
             }
