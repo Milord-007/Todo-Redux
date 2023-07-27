@@ -76,7 +76,7 @@ export const slice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getProducts.pending, setLoading);
     builder.addCase(getProducts.fulfilled, (state, action) => {
-      state.loading = false;
+    state.loading = false;
       
       state.list = action.payload.products;
     });
