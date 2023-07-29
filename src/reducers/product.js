@@ -10,9 +10,20 @@ export const getProducts = createAsyncThunk("product/getProducts", async () => {
     console.log(error);
   }
 });
+
+export const getCart = createAsyncThunk("product/getProducts", async (id) => {
+  try {
+    const response = await fetch(`https://dummyjson.com/products/${id}`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+});
 const initialState = {
   list: {},
   categories: [],
+  cart:[],
   // name: "",
 
   loading: false,
@@ -47,7 +58,7 @@ export const getAllCategories = createAsyncThunk(
         const data = await response.json();
         
         dispatch(getProducts())
-        console.log(data.products);
+        // console.log(data.products);
         return data.products;
         
     } catch (error) {
@@ -95,6 +106,18 @@ export const slice = createSlice({
     builder.addCase(getAllCategories.rejected, (state) => {
       state.loading = false;
     });
+
+    builder.addCase(getCart.pending, setLoading);
+    builder.addCase(getCart.fulfilled, (state, action) => {
+      state.loading = false;
+   
+      state.cart = action.payload;
+      console.log(action.payload);
+    });
+    builder.addCase(getCart.rejected, (state) => {
+      state.loading = false;
+    });
+
   },
 });
 export const { handleChangeCategory } = slice.actions;

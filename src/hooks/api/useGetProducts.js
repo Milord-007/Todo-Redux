@@ -9,3 +9,26 @@ export function useGetProducts() {
 
     return useQuery(["get-products", selectedCategory,search], async () => await productsApi.getProducts(selectedCategory,search));
 }
+export const getCart =()=>{
+  return  fetch('https://dummyjson.com/carts/1').then(res => res.json())
+
+}
+
+export function addToCard(id){
+  return  fetch('https://dummyjson.com/carts/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: 1,
+          products: [
+            {
+              id: id,
+              quantity: 1,
+            },
+         
+          ]
+        })
+      })
+      .then(res => res.json())
+}
+// console.log(addToCard(id));

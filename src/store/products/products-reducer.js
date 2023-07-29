@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   selectedCategory: undefined,
-  search: ""
+  search: "",
+  idx:null
 };
 
 export const productsSlice = createSlice({

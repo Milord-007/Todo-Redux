@@ -1,8 +1,10 @@
 import React from 'react'
-import { useEffect } from "react";
+import { useEffect,useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from '../reducers/product';
 function Home() {
+  const {id}=useRef()
+  console.log(id);
     const loading = useSelector(({ product }) => product.loading);
 
     const dispatch = useDispatch();

@@ -4,6 +4,7 @@ import Layout from './Layout/Layout';
 import Products from './pages/Products/Products';
 import { BrowserRouter as Router, createBrowserRouter, Route, RouterProvider, Routes } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from "react-query";
+import ShowPage from './pages/ShowPage/ShowPage';
 
 export const queryClient = new QueryClient();
 
@@ -20,7 +21,10 @@ const router = createBrowserRouter([
       {
         path: "/products",
         element: <Products />,
-       
+      },
+      {
+        path: "show/:id",
+        element: <ShowPage />,
       },
 
 
