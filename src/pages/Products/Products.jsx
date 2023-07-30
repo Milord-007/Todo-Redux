@@ -7,7 +7,7 @@ import {setSearch, setSelectedCategory} from "../../store/products/products-redu
 import debounce from 'lodash/debounce';
 
 import { useDispatch, useSelector } from "react-redux";
-import { Select, Spin, Table } from "antd";
+import { Select, Spin,  } from "antd";
 import Menu from "antd/es/menu";
 // import { Link } from "react-router-dom";
 
@@ -47,17 +47,16 @@ function Products() {
       </div>
     );
   }
-  // const [currentProducts,setcurrentProducts] = useState(1);
-  // const [productsPerPage] = useState(10);
-//   const lastProductIndex = currentProducts * productsPerPage;
-//   const firstProductIndex = lastProductIndex - productsPerPage;
-//   const currentProduct = data.products.slice(firstProductIndex, lastProductIndex);
-//   const pageNumbers = [];
+  const ITEMS_PER_PAGE = 5;
+
+  const totalPages = Math.ceil(data?.products.length / ITEMS_PER_PAGE);
   
-//   for (let i = 1; i <= Math.ceil(currentProduct.length / productsPerPage); i++) {
-//     pageNumbers.push(i);
-//   }
-// console.log(data);
+  let [currentPage,setCurrentPage] = useState();
+  
+  
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const itemsToShow = data?.products.slice(startIndex, endIndex);
   return (
     
     <div className="max-w-[1450px] mx-auto pt-5 pb-[30px] bg-[#ebebeb]">
@@ -81,23 +80,53 @@ function Products() {
           value={searchValue}
         />
          <div className="pt-[10px] flex flex-wrap justify-center  gap-[30px]">
-        {data?.products && Array.isArray(data?.products) ? (
-          data?.products.map((el) => (
-            <div key={el.id}>
-         
-              <MediaCard idxFunc={el} path={el.id} price={el.price} img={el.thumbnail} title={el.title} pricee={el.price}  category={el.category} />
-             
-            </div>
-          ))
-        ) : (
-          <div>No items in the list</div>
-        )}
-         </div>
-         <ul className="pagination">
-         <div>
+         {itemsToShow && Array.isArray(itemsToShow) ? (
+  itemsToShow.map((el) => (
+    <div key={el.id}>
+      <MediaCard
+        idxFunc={el}
+        path={el.id}
+        price={el.price}
+        img={el.thumbnail}
+        title={el.title}
+        pricee={el.price}
+        category={el.category}
+      />
+    </div>
+  ))
+) : (
+  <div>No items in the list</div>
+)}
 
+
+{totalPages > 1 && (
+  <div className="bg-[#b1b1f2] flex justify-evenly w-full p-2">
+ 
+
+      <button className="border-2 p-2 rounded-lg" onClick={() => setCurrentPage(currentPage - 1)}>Previous</button>
+  
+
+
+    {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+      <button
+      className="rounded-lg border-2 px-4 p-2"
+        key={page}
+        onClick={() => setCurrentPage(page)}
+        style={{ color: currentPage === page ? 'red' : 'black' }}
+      >
+        {page}
+      </button>
+    ))}
+
+
+  
+      <button className="border-2 p-2 rounded-lg" onClick={() => setCurrentPage(currentPage + 1)}>Next</button>
+  
   </div>
-      </ul>
+)}
+         </div>
+ 
+
 
       </div>
 
