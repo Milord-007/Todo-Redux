@@ -1,49 +1,37 @@
-import React from 'react'
-import Home from './Home/Home';
-import Layout from './Layout/Layout';
-import Products from './pages/Products/Products';
-import { BrowserRouter as Router, createBrowserRouter, Route, RouterProvider, Routes } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from "react-query";
-import ShowPage from './pages/ShowPage/ShowPage';
+import React from 'react';
+import { Navigate, Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+import ProductsIndexPage from 'pages/Products/ProductsIndexPage/ProductsIndexPage';
+import ProductShowPage from 'pages/Products/ProductShowPage/ProductShowPage';
+import NavBar from 'components/Core/NavBar/NavBar';
 
 export const queryClient = new QueryClient();
 
-
-const router = createBrowserRouter([
-  {
-    path:"/",
-    element:<Layout/>,
-    children: [
-      {
-        index:true,
-        element:<Home/>
-      },
-      {
-        path: "/products",
-        element: <Products />,
-      },
-      {
-        path: "show/:id",
-        element: <ShowPage />,
-      },
-
-
-    ]
-  },
-  {
-    path:"*",
-    // element:<Nothing/>
-  },
-])
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <>
+      <Route
+        path="/"
+        element={<NavBar />}
+        children={
+          <>
+            <Route path="/" element={<Navigate to="/products" />} />
+            <Route path="/products" element={<ProductsIndexPage />} />
+            <Route path="/products/:id" element={<ProductShowPage />} />
+          </>
+        }
+      />
+    </>,
+  ),
+);
 
 function App() {
   return (
-    <div>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router}/>
-      </QueryClientProvider>
-    </div>
-  )
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
 }
 
-export default App
+export default App;

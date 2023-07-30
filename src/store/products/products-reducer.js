@@ -1,13 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   selectedCategory: undefined,
-  search: "",
-  idx:null
+  search: '',
+  idx: null,
 };
 
 export const productsSlice = createSlice({
-  name: "service",
+  name: 'products',
   initialState,
   reducers: {
     setSelectedCategory(state, action) {
@@ -19,6 +19,6 @@ export const productsSlice = createSlice({
   },
 });
 
-export const { setSelectedCategory,setSearch } = productsSlice.actions;
+export const { setSelectedCategory, setSearch } = productsSlice.actions;
 
 export default productsSlice.reducer;
