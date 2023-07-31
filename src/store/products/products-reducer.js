@@ -4,6 +4,7 @@ const initialState = {
   selectedCategory: undefined,
   search: '',
   idx: null,
+  pagination:undefined
 };
 
 export const productsSlice = createSlice({
@@ -15,10 +16,13 @@ export const productsSlice = createSlice({
     },
     setSearch(state, action) {
       state.search = action.payload;
+    },  
+      setPagination(state, action) {
+      state.search = action.payload;
     },
   },
 });
 
-export const { setSelectedCategory, setSearch } = productsSlice.actions;
+export const { setSelectedCategory, setSearch,setPagination } = productsSlice.actions;
 
 export default productsSlice.reducer;

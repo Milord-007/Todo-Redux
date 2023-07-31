@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ShoppingCartOutlined } from '@mui/icons-material';
+import { RemoveCircleOutlineOutlined, ShoppingCartOutlined } from '@mui/icons-material';
 import { Badge, Button, Drawer, InputNumber, Table } from 'antd';
 import { removeProduct } from 'store/cart/cart-reducer';
 
@@ -63,11 +63,23 @@ function Cart() {
                 );
               },
             },
+
             {
               title: 'Total',
               dataIndex: 'total',
               render: (value) => {
                 return <span>${value}</span>;
+              },
+            },
+            {
+              title: 'Remove',
+              dataIndex: 'id',
+              render: (id, record) => {
+                return (
+                  <button onClick={() => dispatch(removeProduct(record.id))}>
+                    <RemoveCircleOutlineOutlined color="error" className="cur" />
+                  </button>
+                );
               },
             },
           ]}

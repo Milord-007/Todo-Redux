@@ -13,6 +13,7 @@ export default function ProductCard({ img, pricee, title, category, product, pat
 
   const addProductToCard = () => {
     dispatch(addProduct(product));
+    message.success(`${product.title} Has been added to cart`);
   };
 
   return (
@@ -23,8 +24,11 @@ export default function ProductCard({ img, pricee, title, category, product, pat
             <img src={img} alt="" style={{ height: '100%', width: '100%', objectFit: 'cover' }} />
           </Link>
         </div>
-        <CardContent>
+        <CardContent >
+        
+          <Typography variant="h6"  color="red">
           {title}
+          </Typography>
 
           <Typography variant="body2" color="text.secondary">
             {category}
